@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>ChatUp Messages</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #eef3ff;
+        }
+
+        header {
+            background: #1769ff;
+            color: white;
+            padding: 18px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header h2 {
+            margin: 0;
+        }
+
+        header a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 25px auto;
+            padding: 15px;
+        }
+
+        .welcome, .chat-box {
+            background: white;
+            padding: 20px;
+            border-radius: 14px;
+            margin-bottom: 18px;
+            box-shadow: 0 3px 12px #0001;
+        }
+
+        .welcome h3 {
+            color: #1769ff;
+        }
+
+        .messages {
+            min-height: 200px;
+            padding: 12px;
+            background: #f7f9ff;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+
+        .empty {
+            text-align: center;
+            color: #777;
+            padding-top: 60px;
+        }
+
+        input {
+            width: 100%;
+            padding: 13px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+
+        button {
+            width: 100%;
+            padding: 13px;
+            background: #1769ff;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        .note {
+            font-size: 13px;
+            color: #777;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h2>💬 ChatUp</h2>
+        <a href="/logout">Log out</a>
+    </header>
+
+    <div class="container">
+        <div class="welcome">
+            <h3>Welcome, {{ username }}! 👋</h3>
+            <p>Your ChatUp messaging space is ready.</p>
+        </div>
+
+        <div class="chat-box">
+            <h3>Messages</h3>
+
+            <div class="messages">
+                <p class="empty">
+                    Your conversations will appear here.
+                </p>
+            </div>
+
+            <form onsubmit="sendMessage(event)">
+                <input
+                    id="recipient"
+                    type="text"
+                    placeholder="Friend's username"
+                    required
+                >
+
+                <input
+                    id="message"
+                    type="text"
+                    placeholder="Write a message..."
+                    maxlength="2000"
+                    required
+                >
+
+                <button type="submit">Send Message</button>
+            </form>
+
+            <p class="note">
+                ChatUp's real messaging system will be connected next.
+            </p>
+        </div>
+    </div>
+
+    <script>
+        function sendMessage(event) {
+            event.preventDefault();
+
+            alert(
+                "The messaging system is not connected yet. " +
+                "We'll build it next!"
+            );
+        }
+    </script>
+</body>
+  </html>
