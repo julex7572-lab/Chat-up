@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Join ChatUp</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 20px;
+            background: #eef3ff;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            max-width: 420px;
+            margin: 25px auto;
+            padding: 25px;
+            background: white;
+            border-radius: 18px;
+            box-shadow: 0 4px 18px #0001;
+        }
+
+        h1 {
+            color: #1769ff;
+            text-align: center;
+        }
+
+        p {
+            text-align: center;
+            color: #666;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+
+        input {
+            width: 100%;
+            padding: 13px;
+            margin-top: 7px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            margin-top: 22px;
+            background: #1769ff;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 17px;
+        }
+
+        a {
+            color: #1769ff;
+            text-decoration: none;
+        }
+
+        .error {
+            color: #d00;
+            text-align: left;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>💬 ChatUp</h1>
+        <p>Create your account and connect with friends.</p>
+
+        {% with messages = get_flashed_messages() %}
+            {% for message in messages %}
+                <p class="error">{{ message }}</p>
+            {% endfor %}
+        {% endwith %}
+
+        <form action="/signup" method="POST">
+            <label for="username">Username</label>
+            <input
+                id="username"
+                type="text"
+                name="username"
+                placeholder="Choose a username"
+                minlength="3"
+                maxlength="30"
+                required
+            >
+
+            <label for="email">Email address</label>
+            <input
+                id="email"
+                type="email"
+                name="email"
+                placeholder="you@example.com"
+                required
+            >
+
+            <label for="phone">Phone number</label>
+            <input
+                id="phone"
+                type="tel"
+                name="phone"
+                placeholder="Enter your phone number"
+                required
+            >
+
+            <label for="password">Password</label>
+            <input
+                id="password"
+                type="password"
+                name="password"
+                placeholder="At least 8 characters"
+                minlength="8"
+                required
+            >
+
+            <button type="submit">Create Account</button>
+        </form>
+
+        <p>Already registered? <a href="/login">Log in</a></p>
+    </div>
+</body>
+</html>
