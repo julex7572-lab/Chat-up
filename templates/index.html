@@ -13,64 +13,286 @@
         body {
             margin: 0;
             font-family: Arial, sans-serif;
-            background: #eef3ff;
-            color: #222;
+            background: #f4f7fb;
+            color: #172033;
         }
 
         header {
             background: #1769ff;
             color: white;
-            padding: 20px;
-            text-align: center;
-            font-size: 28px;
+            padding: 18px 16px 12px;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .top-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 18px;
+        }
+
+        .logo {
+            font-size: 26px;
             font-weight: bold;
         }
 
-        main {
-            max-width: 450px;
-            margin: 50px auto;
-            padding: 25px;
-            background: white;
-            border-radius: 16px;
-            text-align: center;
-            box-shadow: 0 4px 15px #0001;
-        }
-
-        h1 {
-            color: #1769ff;
-        }
-
-        p {
-            line-height: 1.6;
-        }
-
-        a {
-            display: block;
-            margin: 15px 0;
-            padding: 14px;
-            background: #1769ff;
+        .top-icons a {
             color: white;
             text-decoration: none;
-            border-radius: 8px;
+            font-size: 21px;
+            margin-left: 14px;
         }
 
-        a:hover {
-            background: #0752d6;
+        .tabs {
+            display: flex;
+            gap: 22px;
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
+
+        .tabs::-webkit-scrollbar {
+            display: none;
+        }
+
+        .tab {
+            color: #dce8ff;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: bold;
+            padding: 10px 0;
+            white-space: nowrap;
+        }
+
+        .tab.active {
+            color: white;
+            border-bottom: 3px solid white;
+        }
+
+        .search {
+            margin: 16px;
+            background: white;
+            padding: 12px 15px;
+            border-radius: 25px;
+            display: flex;
+            gap: 10px;
+            box-shadow: 0 2px 8px #00000008;
+        }
+
+        .search input {
+            border: none;
+            outline: none;
+            width: 100%;
+            font-size: 15px;
+            background: transparent;
+        }
+
+        .section-title {
+            padding: 4px 16px 12px;
+            color: #1769ff;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .chat-list {
+            background: white;
+        }
+
+        .chat-item {
+            display: flex;
+            align-items: center;
+            padding: 14px 16px;
+            border-bottom: 1px solid #eef1f6;
+            text-decoration: none;
+            color: inherit;
+            gap: 12px;
+        }
+
+        .avatar {
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            background: #dce8ff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 25px;
+            flex-shrink: 0;
+        }
+
+        .chat-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .chat-name {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 6px;
+        }
+
+        .last-message {
+            font-size: 13px;
+            color: #778195;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+
+        .chat-time {
+            font-size: 11px;
+            color: #778195;
+        }
+
+        .empty {
+            text-align: center;
+            padding: 45px 20px;
+            color: #778195;
+            line-height: 1.7;
+        }
+
+        .empty strong {
+            display: block;
+            color: #1769ff;
+            font-size: 18px;
+            margin-bottom: 8px;
+        }
+
+        .new-chat {
+            position: fixed;
+            right: 20px;
+            bottom: 25px;
+            width: 58px;
+            height: 58px;
+            border-radius: 18px;
+            background: #1769ff;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 28px;
+            text-decoration: none;
+            box-shadow: 0 5px 15px #1769ff55;
+        }
+
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+            border-top: 1px solid #e7ebf2;
+        }
+
+        .bottom-nav a {
+            text-decoration: none;
+            color: #778195;
+            text-align: center;
+            font-size: 11px;
+        }
+
+        .bottom-nav span {
+            display: block;
+            font-size: 21px;
+            margin-bottom: 4px;
+        }
+
+        .bottom-nav .selected {
+            color: #1769ff;
+            font-weight: bold;
+        }
+
+        .page-space {
+            height: 90px;
         }
     </style>
 </head>
 
 <body>
-    <header>💬 ChatUp</header>
 
-    <main>
-        <h1>Welcome to ChatUp!</h1>
+<header>
+    <div class="top-row">
+        <div class="logo">💬 ChatUp</div>
 
-        <p>Connect with friends and chat together.</p>
+        <div class="top-icons">
+            <a href="/signup" aria-label="Search friends">🔍</a>
+            <a href="/chat" aria-label="Messages">✉️</a>
+            <a href="/signup" aria-label="More options">⋮</a>
+        </div>
+    </div>
 
-        <a href="/signup">Create an Account</a>
+    <nav class="tabs">
+        <a class="tab active" href="/">CHATS</a>
+        <a class="tab" href="/?section=status">STATUS</a>
+        <a class="tab" href="/?section=calls">CALLS</a>
+        <a class="tab" href="/?section=channels">CHANNELS</a>
+        <a class="tab" href="/?section=videos">VIDEOS</a>
+    </nav>
+</header>
 
-        <a href="/login">Log In</a>
-    </main>
+<div class="search">
+    <span>🔍</span>
+    <input
+        type="search"
+        id="chatSearch"
+        placeholder="Search friends and conversations..."
+        oninput="filterChats()"
+    >
+</div>
+
+<div class="section-title">YOUR CONVERSATIONS</div>
+
+<div class="chat-list" id="chatList">
+    <div class="empty">
+        <strong>Welcome to ChatUp! 💙</strong>
+        Your conversations will appear here.<br>
+        Create an account or log in to get started.
+        <br><br>
+        <a href="/signup"
+           style="display:inline-block;background:#1769ff;color:white;
+           padding:12px 20px;border-radius:10px;text-decoration:none;">
+            Get Started
+        </a>
+    </div>
+</div>
+
+<div class="page-space"></div>
+
+<a class="new-chat" href="/signup" aria-label="Start a new chat">＋</a>
+
+<nav class="bottom-nav">
+    <a class="selected" href="/">
+        <span>💬</span>Chats
+    </a>
+    <a href="/?section=status">
+        <span>⭕</span>Status
+    </a>
+    <a href="/?section=calls">
+        <span>📞</span>Calls
+    </a>
+    <a href="/?section=channels">
+        <span>📢</span>Channels
+    </a>
+    <a href="/signup">
+        <span>👤</span>Profile
+    </a>
+</nav>
+
+<script>
+    function filterChats() {
+        const search = document.getElementById("chatSearch");
+        const query = search.value.toLowerCase();
+
+        document.querySelectorAll(".chat-item").forEach(function(item) {
+            const text = item.innerText.toLowerCase();
+            item.style.display = text.includes(query) ? "flex" : "none";
+        });
+    }
+</script>
+
 </body>
-      </html>
+</html>
