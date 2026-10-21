@@ -2,8 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Login | ChatUp</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Login - ChatUp</title>
 
     <style>
         * {
@@ -13,14 +14,15 @@
         body {
             margin: 0;
             padding: 20px;
-            background: #eef3ff;
             font-family: Arial, sans-serif;
+            background: #eef3ff;
+            color: #222;
         }
 
         .container {
             max-width: 420px;
-            margin: 50px auto;
-            padding: 25px;
+            margin: 60px auto;
+            padding: 28px;
             background: white;
             border-radius: 18px;
             box-shadow: 0 4px 18px #0001;
@@ -33,7 +35,8 @@
 
         p {
             text-align: center;
-            color: #666;
+            line-height: 1.5;
+            color: #667085;
         }
 
         label {
@@ -44,69 +47,103 @@
 
         input {
             width: 100%;
-            padding: 13px;
-            margin-top: 7px;
-            border: 1px solid #ccc;
-            border-radius: 8px;
+            padding: 14px;
+            margin-top: 8px;
+            border: 1px solid #d5dbea;
+            border-radius: 10px;
             font-size: 16px;
         }
 
         button {
             width: 100%;
-            padding: 14px;
             margin-top: 24px;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
             background: #1769ff;
             color: white;
-            border: none;
-            border-radius: 8px;
             font-size: 17px;
+            cursor: pointer;
+        }
+
+        .message {
+            margin-top: 15px;
+            color: #c62828;
+            text-align: center;
+        }
+
+        .footer {
+            margin-top: 22px;
+            text-align: center;
         }
 
         a {
             color: #1769ff;
             text-decoration: none;
         }
-
-        .error {
-            color: #d00;
-        }
     </style>
 </head>
 
 <body>
-    <div class="container">
-        <h1>💬 ChatUp</h1>
-        <p>Welcome back! Log in to continue.</p>
 
-        {% with messages = get_flashed_messages() %}
+<div class="container">
+
+    <h1>💬 ChatUp</h1>
+
+    <p>Welcome back! Log in to continue chatting.</p>
+
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
             {% for message in messages %}
-                <p class="error">{{ message }}</p>
+                <div class="message">
+                    {{ message }}
+                </div>
             {% endfor %}
-        {% endwith %}
+        {% endif %}
+    {% endwith %}
 
-        <form action="/login" method="POST">
-            <label for="username">Username or email</label>
-            <input
-                id="username"
-                type="text"
-                name="username"
-                placeholder="Enter username or email"
-                required
-            >
+    <form method="POST" action="{{ url_for('login') }}">
 
-            <label for="password">Password</label>
-            <input
-                id="password"
-                type="password"
-                name="password"
-                placeholder="Enter your password"
-                required
-            >
+        <label for="identity">
+            Email address or phone number
+        </label>
 
-            <button type="submit">Log In</button>
-        </form>
+        <input
+            type="text"
+            id="identity"
+            name="identity"
+            placeholder="Enter email or phone number"
+            autocomplete="username"
+            required
+        >
 
-        <p>New to ChatUp? <a href="/signup">Create an account</a></p>
+        <label for="password">
+            Password
+        </label>
+
+        <input
+            type="password"
+            id="password"
+            name="password"
+            placeholder="Enter your password"
+            autocomplete="current-password"
+            required
+        >
+
+        <button type="submit">
+            Log In
+        </button>
+
+    </form>
+
+    <div class="footer">
+        Don't have an account?
+        <a href="{{ url_for('signup') }}">Create one</a>
+        <br><br>
+        <a href="{{ url_for('home') }}">Back to Home</a>
     </div>
+
+</div>
+
 </body>
-              </html>
+</html>
