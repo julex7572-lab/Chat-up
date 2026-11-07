@@ -1,3 +1,4 @@
+
 import re
 import os
 
@@ -21,13 +22,11 @@ from database import get_db, create_tables
 
 app = Flask(__name__)
 
-# Configure SECRET_KEY in Render's environment variables.
 app.secret_key = os.environ.get(
     "SECRET_KEY",
     "development-key-change-before-deployment"
 )
 
-# Create database tables.
 create_tables()
 
 
@@ -65,7 +64,6 @@ def signup():
             "password", ""
         )
 
-        # Validate username.
         if not re.fullmatch(
             r"[A-Za-z0-9_]{3,30}",
             username
@@ -76,7 +74,6 @@ def signup():
             )
             return redirect(url_for("signup"))
 
-        # Validate email.
         if not re.fullmatch(
             r"[^@\s]+@[^@\s]+\.[^@\s]+",
             email
@@ -84,7 +81,6 @@ def signup():
             flash("Enter a valid email address.")
             return redirect(url_for("signup"))
 
-        # Validate phone.
         if not re.fullmatch(
             r"\+?[0-9 ()-]{7,20}",
             phone
@@ -92,7 +88,6 @@ def signup():
             flash("Enter a valid phone number.")
             return redirect(url_for("signup"))
 
-        # Validate password.
         if len(password) < 8:
             flash(
                 "Your password must contain "
@@ -103,7 +98,6 @@ def signup():
         db = get_db()
 
         try:
-            # Username, email and phone must be unique.
             db.execute(
                 """
                 INSERT INTO users
@@ -142,8 +136,7 @@ def signup():
                 )
 
                 flash(
-                    "We couldn't create your account. "
-                    "Please try again."
+                    "We couldn't create your account."
                 )
 
             return redirect(url_for("signup"))
@@ -155,7 +148,7 @@ def signup():
 
 
 # =========================
-# LOGIN WITH EMAIL OR PHONE
+# LOGIN
 # =========================
 
 @app.route("/login", methods=["GET", "POST"])
@@ -172,17 +165,12 @@ def login():
         )
 
         if not identity or not password:
-            flash(
-                "Enter your email address or phone "
-                "number and your password."
-            )
-
+            flash("Enter your email/phone and password.")
             return redirect(url_for("login"))
 
         db = get_db()
 
         try:
-            # Users can log in using email OR phone.
             user = db.execute(
                 """
                 SELECT *
@@ -190,10 +178,7 @@ def login():
                 WHERE email = ? COLLATE NOCASE
                    OR phone = ?
                 """,
-                (
-                    identity.lower(),
-                    identity
-                )
+                (identity.lower(), identity)
             ).fetchone()
 
         finally:
@@ -208,16 +193,12 @@ def login():
         ):
 
             session.clear()
-
             session["user_id"] = user["id"]
             session["username"] = user["username"]
 
             return redirect(url_for("chat"))
 
-        flash(
-            "Incorrect email/phone number "
-            "or password."
-        )
+        flash("Incorrect email/phone or password.")
 
     return render_template("login.html")
 
@@ -232,9 +213,178 @@ def chat():
     if "user_id" not in session:
         return redirect(url_for("login"))
 
+    current_user_id = session["user_id"]
+
+    recipient_username = request.args.get(
+        "with", ""
+    ).strip()
+
+    db = get_db()
+
+    try:
+
+        # Get all users except the logged-in user.
+        users = db.execute(
+            """
+            SELECT id, username
+            FROM users
+            WHERE id != ?
+            ORDER BY username
+            """,
+            (current_user_id,)
+        ).fetchall()
+
+        recipient = None
+        messages = []
+
+        # Load selected conversation.
+        if recipient_username:
+
+            recipient = db.execute(
+                """
+                SELECT id, username
+                FROM users
+                WHERE username = ? COLLATE NOCASE
+                  AND id != ?
+                """,
+                (
+                    recipient_username,
+                    current_user_id
+                )
+            ).fetchone()
+
+            if recipient:
+
+                messages = db.execute(
+                    """
+                    SELECT
+                        messages.id,
+                        messages.sender_id,
+                        messages.receiver_id,
+                        messages.message,
+                        messages.created_at,
+                        sender.username AS sender_username
+                    FROM messages
+                    JOIN users AS sender
+                      ON sender.id = messages.sender_id
+                    WHERE
+                        (
+                            messages.sender_id = ?
+                            AND messages.receiver_id = ?
+                        )
+                        OR
+                        (
+                            messages.sender_id = ?
+                            AND messages.receiver_id = ?
+                        )
+                    ORDER BY
+                        messages.created_at,
+                        messages.id
+                    """,
+                    (
+                        current_user_id,
+                        recipient["id"],
+                        recipient["id"],
+                        current_user_id
+                    )
+                ).fetchall()
+
+    finally:
+        db.close()
+
     return render_template(
         "chat.html",
-        username=session["username"]
+        username=session["username"],
+        users=users,
+        recipient=recipient,
+        messages=messages
+    )
+
+
+# =========================
+# SEND MESSAGE
+# =========================
+
+@app.route("/send-message", methods=["POST"])
+def send_message():
+
+    if "user_id" not in session:
+        return redirect(url_for("login"))
+
+    recipient_username = request.form.get(
+        "recipient", ""
+    ).strip()
+
+    message = request.form.get(
+        "message", ""
+    ).strip()
+
+    if not recipient_username or not message:
+        flash("Enter a recipient and a message.")
+        return redirect(url_for("chat"))
+
+    if len(message) > 2000:
+        flash("Message is too long.")
+        return redirect(
+            url_for(
+                "chat",
+                **{"with": recipient_username}
+            )
+        )
+
+    db = get_db()
+
+    try:
+
+        recipient = db.execute(
+            """
+            SELECT id
+            FROM users
+            WHERE username = ? COLLATE NOCASE
+              AND id != ?
+            """,
+            (
+                recipient_username,
+                session["user_id"]
+            )
+        ).fetchone()
+
+        if not recipient:
+
+            flash("User not found.")
+
+            return redirect(url_for("chat"))
+
+        db.execute(
+            """
+            INSERT INTO messages
+            (sender_id, receiver_id, message)
+            VALUES (?, ?, ?)
+            """,
+            (
+                session["user_id"],
+                recipient["id"],
+                message
+            )
+        )
+
+        db.commit()
+
+    except Exception:
+
+        db.rollback()
+        app.logger.exception("Message sending failed")
+
+        flash("Could not send message.")
+
+    finally:
+        db.close()
+
+    return redirect(
+        url_for(
+            "chat",
+            **{"with": recipient_username}
+        )
     )
 
 
@@ -260,4 +410,4 @@ if __name__ == "__main__":
         host="0.0.0.0",
         port=int(os.environ.get("PORT", 5000)),
         debug=False
-)
+    )
