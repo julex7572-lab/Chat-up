@@ -1,9 +1,12 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>ChatUp Messages</title>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1">
+
+    <title>ChatUp - Chat, Have Fun!</title>
 
     <style>
         * {
@@ -14,12 +17,13 @@
             margin: 0;
             font-family: Arial, sans-serif;
             background: #eef3ff;
+            color: #222;
         }
 
         header {
             background: #1769ff;
             color: white;
-            padding: 18px;
+            padding: 16px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -35,35 +39,87 @@
         }
 
         .container {
-            max-width: 600px;
-            margin: 25px auto;
-            padding: 15px;
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 12px;
         }
 
-        .welcome, .chat-box {
+        .welcome {
             background: white;
-            padding: 20px;
-            border-radius: 14px;
-            margin-bottom: 18px;
+            padding: 16px;
+            border-radius: 12px;
+            margin-bottom: 15px;
+        }
+
+        .layout {
+            display: flex;
+            gap: 15px;
+        }
+
+        .users, .chat-box {
+            background: white;
+            padding: 15px;
+            border-radius: 12px;
             box-shadow: 0 3px 12px #0001;
         }
 
-        .welcome h3 {
+        .users {
+            width: 30%;
+        }
+
+        .chat-box {
+            width: 70%;
+        }
+
+        .user-link {
+            display: block;
+            padding: 12px;
+            margin-bottom: 8px;
+            border-radius: 8px;
+            background: #f1f5ff;
             color: #1769ff;
+            text-decoration: none;
+            overflow-wrap: anywhere;
+        }
+
+        .user-link:hover {
+            background: #dce8ff;
         }
 
         .messages {
-            min-height: 200px;
+            height: 350px;
+            overflow-y: auto;
             padding: 12px;
             background: #f7f9ff;
             border-radius: 10px;
             margin-bottom: 15px;
         }
 
-        .empty {
-            text-align: center;
-            color: #777;
-            padding-top: 60px;
+        .message {
+            padding: 10px 12px;
+            margin: 8px 0;
+            border-radius: 12px;
+            max-width: 85%;
+            overflow-wrap: anywhere;
+        }
+
+        .sent {
+            background: #1769ff;
+            color: white;
+            margin-left: auto;
+        }
+
+        .received {
+            background: #e2e8f0;
+            color: #222;
+            margin-right: auto;
+        }
+
+        .message small {
+            display: block;
+            font-size: 11px;
+            margin-top: 5px;
+            opacity: 0.8;
         }
 
         input {
@@ -83,71 +139,175 @@
             border: none;
             border-radius: 8px;
             font-size: 16px;
+            cursor: pointer;
         }
 
-        .note {
-            font-size: 13px;
-            color: #777;
+        .empty {
             text-align: center;
+            color: #777;
+            padding-top: 80px;
+        }
+
+        .flash {
+            background: #fff3cd;
+            color: #664d03;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 12px;
+        }
+
+        @media (max-width: 600px) {
+            .layout {
+                flex-direction: column;
+            }
+
+            .users, .chat-box {
+                width: 100%;
+            }
+
+            .users {
+                max-height: 200px;
+                overflow-y: auto;
+            }
+
+            .messages {
+                height: 300px;
+            }
         }
     </style>
 </head>
 
 <body>
-    <header>
-        <h2>💬 ChatUp</h2>
-        <a href="/logout">Log out</a>
-    </header>
 
-    <div class="container">
-        <div class="welcome">
-            <h3>Welcome, {{ username }}! 👋</h3>
-            <p>Your ChatUp messaging space is ready.</p>
+<header>
+    <h2>💬 ChatUp</h2>
+    <a href="/logout">Log out</a>
+</header>
+
+<div class="container">
+
+    <div class="welcome">
+        <h3>Welcome, {{ username }}! 👋</h3>
+        <p>Chat, Have Fun!</p>
+    </div>
+
+    {% with alerts = get_flashed_messages() %}
+        {% for alert in alerts %}
+            <div class="flash">{{ alert }}</div>
+        {% endfor %}
+    {% endwith %}
+
+    <div class="layout">
+
+        <div class="users">
+            <h3>Friends / Users</h3>
+
+            {% if users %}
+
+                {% for user in users %}
+
+                    <a class="user-link"
+                       href="{{ url_for('chat', **{'with': user['username']}) }}">
+                        👤 {{ user["username"] }}
+                    </a>
+
+                {% endfor %}
+
+            {% else %}
+
+                <p>No other users yet.</p>
+
+            {% endif %}
         </div>
 
         <div class="chat-box">
-            <h3>Messages</h3>
 
-            <div class="messages">
+            {% if recipient %}
+
+                <h3>Chat with {{ recipient["username"] }}</h3>
+
+                <div class="messages" id="messages">
+
+                    {% if messages %}
+
+                        {% for msg in messages %}
+
+                            {% if msg["sender_id"] == session["user_id"] %}
+
+                                <div class="message sent">
+                                    <strong>You</strong>
+                                    <p>{{ msg["message"] }}</p>
+                                    <small>{{ msg["created_at"] }}</small>
+                                </div>
+
+                            {% else %}
+
+                                <div class="message received">
+                                    <strong>{{ msg["sender_username"] }}</strong>
+                                    <p>{{ msg["message"] }}</p>
+                                    <small>{{ msg["created_at"] }}</small>
+                                </div>
+
+                            {% endif %}
+
+                        {% endfor %}
+
+                    {% else %}
+
+                        <p class="empty">
+                            No messages yet. Say hello! 👋
+                        </p>
+
+                    {% endif %}
+
+                </div>
+
+                <form action="/send-message" method="POST">
+
+                    <input
+                        type="hidden"
+                        name="recipient"
+                        value="{{ recipient['username'] }}"
+                    >
+
+                    <input
+                        type="text"
+                        name="message"
+                        placeholder="Write a message..."
+                        maxlength="2000"
+                        required
+                        autocomplete="off"
+                    >
+
+                    <button type="submit">
+                        Send Message 🚀
+                    </button>
+
+                </form>
+
+            {% else %}
+
+                <h3>Your Messages</h3>
+
                 <p class="empty">
-                    Your conversations will appear here.
+                    Select a user on the left to start chatting.
                 </p>
-            </div>
 
-            <form onsubmit="sendMessage(event)">
-                <input
-                    id="recipient"
-                    type="text"
-                    placeholder="Friend's username"
-                    required
-                >
+            {% endif %}
 
-                <input
-                    id="message"
-                    type="text"
-                    placeholder="Write a message..."
-                    maxlength="2000"
-                    required
-                >
-
-                <button type="submit">Send Message</button>
-            </form>
-
-            <p class="note">
-                ChatUp's real messaging system will be connected next.
-            </p>
         </div>
+
     </div>
 
-    <script>
-        function sendMessage(event) {
-            event.preventDefault();
+</div>
 
-            alert(
-                "The messaging system is not connected yet. " +
-                "We'll build it next!"
-            );
-        }
-    </script>
+<script>
+    const messagesBox = document.getElementById("messages");
+
+    if (messagesBox) {
+        messagesBox.scrollTop = messagesBox.scrollHeight;
+    }
+</script>
+
 </body>
-  </html>
+</html>
