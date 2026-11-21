@@ -1,1 +1,200 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChatUp Shorts</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #080d18;
+            color: white;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px;
+            background: #111a2e;
+        }
+
+        header h2 {
+            margin: 0;
+            color: #55aaff;
+        }
+
+        header a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .upload {
+            margin: 15px;
+            padding: 18px;
+            background: #15213a;
+            border-radius: 12px;
+        }
+
+        .upload h3 {
+            margin-top: 0;
+        }
+
+        input, textarea, button {
+            width: 100%;
+            margin-top: 10px;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-size: 15px;
+        }
+
+        button {
+            background: #1685ff;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .video-feed {
+            max-width: 500px;
+            margin: 20px auto;
+            padding: 10px;
+        }
+
+        .video-card {
+            margin-bottom: 25px;
+            background: #15213a;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        video {
+            width: 100%;
+            max-height: 650px;
+            display: block;
+            background: black;
+        }
+
+        .video-info {
+            padding: 14px;
+        }
+
+        .video-info h4 {
+            margin: 0 0 8px;
+            color: #55aaff;
+        }
+
+        .video-info p {
+            margin: 0;
+            overflow-wrap: anywhere;
+        }
+
+        .empty {
+            text-align: center;
+            padding: 35px 10px;
+            color: #b9c5d8;
+        }
+
+        .message {
+            margin: 10px 15px;
+            padding: 10px;
+            background: #173d2b;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h2>ChatUp Shorts</h2>
+    <a href="{{ url_for('chat') }}">Back to Chat</a>
+</header>
+
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+        {% for message in messages %}
+            <div class="message">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+
+<section class="upload">
+    <h3>Upload a Short Video</h3>
+
+    <form action="{{ url_for('upload_video') }}"
+          method="POST"
+          enctype="multipart/form-data">
+
+        <label for="video">Choose a video</label>
+
+        <input
+            type="file"
+            id="video"
+            name="video"
+            accept="video/mp4,video/webm,video/quicktime"
+            required
+        >
+
+        <textarea
+            name="caption"
+            placeholder="Write a caption..."
+            maxlength="300"
+            rows="3"
+        ></textarea>
+
+        <button type="submit">Upload Video</button>
+    </form>
+
+    <small>Maximum upload size: 50 MB.</small>
+</section>
+
+<main class="video-feed">
+
+    {% if videos %}
+
+        {% for video in videos %}
+
+            <article class="video-card">
+
+                <video controls playsinline preload="metadata">
+                    <source
+                        src="{{ url_for('static', filename='uploads/videos/' ~ video['filename']) }}"
+                    >
+                    Your browser does not support video playback.
+                </video>
+
+                <div class="video-info">
+                    <h4>@{{ video['username'] }}</h4>
+
+                    {% if video['caption'] %}
+                        <p>{{ video['caption'] }}</p>
+                    {% endif %}
+                </div>
+
+            </article>
+
+        {% endfor %}
+
+    {% else %}
+
+        <div class="empty">
+            <h3>No videos yet</h3>
+            <p>Be the first to share a short video!</p>
+        </div>
+
+    {% endif %}
+
+</main>
+
+</body>
+</html>
+
