@@ -51,6 +51,21 @@
             margin-bottom: 15px;
         }
 
+        .shorts-button {
+            display: inline-block;
+            background: #1769ff;
+            color: white;
+            padding: 12px 22px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        .shorts-button:hover {
+            background: #0755df;
+        }
+
         .layout {
             display: flex;
             gap: 15px;
@@ -189,6 +204,11 @@
     <div class="welcome">
         <h3>Welcome, {{ username }}! 👋</h3>
         <p>Chat, Have Fun!</p>
+
+        <a href="{{ url_for('shorts') }}"
+           class="shorts-button">
+            🎬 Watch Shorts
+        </a>
     </div>
 
     {% with alerts = get_flashed_messages() %}
