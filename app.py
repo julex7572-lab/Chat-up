@@ -1,6 +1,7 @@
 
 import re
 import os
+import secrets
 
 from flask import (
     Flask,
@@ -17,6 +18,8 @@ from werkzeug.security import (
     check_password_hash
 )
 
+from werkzeug.utils import secure_filename
+
 from database import get_db, create_tables
 
 
@@ -26,6 +29,27 @@ app.secret_key = os.environ.get(
     "SECRET_KEY",
     "development-key-change-before-deployment"
 )
+
+# =========================
+# VIDEO UPLOAD SETTINGS
+# =========================
+
+app.config["MAX_CONTENT_LENGTH"] = 50 * 1024 * 1024
+
+VIDEO_FOLDER = os.path.join(
+    app.root_path,
+    "static",
+    "uploads",
+    "videos"
+)
+
+os.makedirs(VIDEO_FOLDER, exist_ok=True)
+
+ALLOWED_VIDEO_EXTENSIONS = {
+    "mp4",
+    "webm",
+    "mov"
+}
 
 create_tables()
 
@@ -223,7 +247,6 @@ def chat():
 
     try:
 
-        # Get all users except the logged-in user.
         users = db.execute(
             """
             SELECT id, username
@@ -237,7 +260,6 @@ def chat():
         recipient = None
         messages = []
 
-        # Load selected conversation.
         if recipient_username:
 
             recipient = db.execute(
@@ -386,6 +408,147 @@ def send_message():
             **{"with": recipient_username}
         )
     )
+
+
+# =========================
+# SHORT VIDEOS / REELS
+# =========================
+
+@app.route("/shorts")
+def shorts():
+
+    if "user_id" not in session:
+        return redirect(url_for("login"))
+
+    db = get_db()
+
+    try:
+
+        videos = db.execute(
+            """
+            SELECT
+                videos.id,
+                videos.user_id,
+                videos.filename,
+                videos.caption,
+                videos.created_at,
+                users.username
+            FROM videos
+            JOIN users
+              ON users.id = videos.user_id
+            ORDER BY
+                videos.created_at DESC,
+                videos.id DESC
+            """
+        ).fetchall()
+
+    finally:
+        db.close()
+
+    return render_template(
+        "shorts.html",
+        username=session["username"],
+        videos=videos
+    )
+
+
+# =========================
+# UPLOAD VIDEO
+# =========================
+
+@app.route("/upload-video", methods=["POST"])
+def upload_video():
+
+    if "user_id" not in session:
+        return redirect(url_for("login"))
+
+    video = request.files.get("video")
+
+    caption = request.form.get(
+        "caption", ""
+    ).strip()
+
+    if not video or not video.filename:
+
+        flash("Please select a video to upload.")
+
+        return redirect(url_for("shorts"))
+
+    if len(caption) > 300:
+
+        flash("Caption must not exceed 300 characters.")
+
+        return redirect(url_for("shorts"))
+
+    original_filename = secure_filename(
+        video.filename
+    )
+
+    extension = os.path.splitext(
+        original_filename
+    )[1].lower().lstrip(".")
+
+    if extension not in ALLOWED_VIDEO_EXTENSIONS:
+
+        flash(
+            "Only MP4, WEBM and MOV videos are allowed."
+        )
+
+        return redirect(url_for("shorts"))
+
+    filename = (
+        str(session["user_id"])
+        + "_"
+        + secrets.token_hex(16)
+        + "."
+        + extension
+    )
+
+    filepath = os.path.join(
+        VIDEO_FOLDER,
+        filename
+    )
+
+    db = get_db()
+
+    try:
+
+        video.save(filepath)
+
+        db.execute(
+            """
+            INSERT INTO videos
+            (user_id, filename, caption)
+            VALUES (?, ?, ?)
+            """,
+            (
+                session["user_id"],
+                filename,
+                caption
+            )
+        )
+
+        db.commit()
+
+        flash("Your video was uploaded successfully!")
+
+    except Exception:
+
+        db.rollback()
+
+        if os.path.exists(filepath):
+            os.remove(filepath)
+
+        app.logger.exception(
+            "Video upload failed"
+        )
+
+        flash("Could not upload your video.")
+
+    finally:
+        db.close()
+
+    return redirect(url_for("shorts"))
 
 
 # =========================
