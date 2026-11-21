@@ -2,194 +2,181 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ChatUp - Chat, Have Fun!</title>
 
-    <title>ChatUp - Chat, Have Fun!</title>
+<style>
+* { box-sizing: border-box; }
 
-    <style>
-        * {
-            box-sizing: border-box;
-        }
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #eef3ff;
+    color: #222;
+}
 
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background: #eef3ff;
-            color: #222;
-        }
+header {
+    background: #1769ff;
+    color: white;
+    padding: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
 
-        header {
-            background: #1769ff;
-            color: white;
-            padding: 16px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+header h2 { margin: 0; }
+header a { color: white; text-decoration: none; }
 
-        header h2 {
-            margin: 0;
-        }
+.container {
+    max-width: 900px;
+    margin: 20px auto;
+    padding: 12px;
+}
 
-        header a {
-            color: white;
-            text-decoration: none;
-        }
+.welcome, .users, .chat-box {
+    background: white;
+    padding: 15px;
+    border-radius: 12px;
+    box-shadow: 0 3px 12px #0001;
+}
 
-        .container {
-            max-width: 900px;
-            margin: 20px auto;
-            padding: 12px;
-        }
+.welcome { margin-bottom: 15px; }
 
-        .welcome {
-            background: white;
-            padding: 16px;
-            border-radius: 12px;
-            margin-bottom: 15px;
-        }
+.shorts-button {
+    display: inline-block;
+    background: #1769ff;
+    color: white;
+    padding: 12px 22px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+}
 
-        .shorts-button {
-            display: inline-block;
-            background: #1769ff;
-            color: white;
-            padding: 12px 22px;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: bold;
-            margin-top: 10px;
-        }
+.layout { display: flex; gap: 15px; }
+.users { width: 30%; }
+.chat-box { width: 70%; }
 
-        .shorts-button:hover {
-            background: #0755df;
-        }
+.user-link {
+    display: block;
+    padding: 12px;
+    margin-bottom: 8px;
+    border-radius: 8px;
+    background: #f1f5ff;
+    color: #1769ff;
+    text-decoration: none;
+    overflow-wrap: anywhere;
+}
 
-        .layout {
-            display: flex;
-            gap: 15px;
-        }
+.messages {
+    height: 350px;
+    overflow-y: auto;
+    padding: 12px;
+    background: #f7f9ff;
+    border-radius: 10px;
+    margin-bottom: 15px;
+}
 
-        .users, .chat-box {
-            background: white;
-            padding: 15px;
-            border-radius: 12px;
-            box-shadow: 0 3px 12px #0001;
-        }
+.message {
+    padding: 10px 12px;
+    margin: 8px 0;
+    border-radius: 12px;
+    max-width: 85%;
+    overflow-wrap: anywhere;
+}
 
-        .users {
-            width: 30%;
-        }
+.sent {
+    background: #1769ff;
+    color: white;
+    margin-left: auto;
+}
 
-        .chat-box {
-            width: 70%;
-        }
+.received {
+    background: #e2e8f0;
+    color: #222;
+    margin-right: auto;
+}
 
-        .user-link {
-            display: block;
-            padding: 12px;
-            margin-bottom: 8px;
-            border-radius: 8px;
-            background: #f1f5ff;
-            color: #1769ff;
-            text-decoration: none;
-            overflow-wrap: anywhere;
-        }
+.message small {
+    display: block;
+    font-size: 11px;
+    margin-top: 5px;
+    opacity: 0.8;
+}
 
-        .user-link:hover {
-            background: #dce8ff;
-        }
+.message img {
+    display: block;
+    max-width: 100%;
+    max-height: 250px;
+    border-radius: 8px;
+    margin-top: 8px;
+}
 
-        .messages {
-            height: 350px;
-            overflow-y: auto;
-            padding: 12px;
-            background: #f7f9ff;
-            border-radius: 10px;
-            margin-bottom: 15px;
-        }
+.message audio {
+    display: block;
+    max-width: 100%;
+    margin-top: 8px;
+}
 
-        .message {
-            padding: 10px 12px;
-            margin: 8px 0;
-            border-radius: 12px;
-            max-width: 85%;
-            overflow-wrap: anywhere;
-        }
+input[type="text"] {
+    width: 100%;
+    padding: 13px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    font-size: 16px;
+}
 
-        .sent {
-            background: #1769ff;
-            color: white;
-            margin-left: auto;
-        }
+button, .file-label {
+    display: inline-block;
+    padding: 12px;
+    background: #1769ff;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 15px;
+    cursor: pointer;
+    text-align: center;
+}
 
-        .received {
-            background: #e2e8f0;
-            color: #222;
-            margin-right: auto;
-        }
+button { width: 100%; }
 
-        .message small {
-            display: block;
-            font-size: 11px;
-            margin-top: 5px;
-            opacity: 0.8;
-        }
+.attachments {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin: 10px 0;
+}
 
-        input {
-            width: 100%;
-            padding: 13px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            margin-bottom: 10px;
-            font-size: 16px;
-        }
+.attachments input { display: none; }
 
-        button {
-            width: 100%;
-            padding: 13px;
-            background: #1769ff;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 16px;
-            cursor: pointer;
-        }
+#recordStatus {
+    font-size: 13px;
+    color: #1769ff;
+    margin: 8px 0;
+}
 
-        .empty {
-            text-align: center;
-            color: #777;
-            padding-top: 80px;
-        }
+.flash {
+    background: #fff3cd;
+    color: #664d03;
+    padding: 12px;
+    border-radius: 8px;
+    margin-bottom: 12px;
+}
 
-        .flash {
-            background: #fff3cd;
-            color: #664d03;
-            padding: 12px;
-            border-radius: 8px;
-            margin-bottom: 12px;
-        }
+.empty {
+    text-align: center;
+    color: #777;
+    padding-top: 80px;
+}
 
-        @media (max-width: 600px) {
-            .layout {
-                flex-direction: column;
-            }
-
-            .users, .chat-box {
-                width: 100%;
-            }
-
-            .users {
-                max-height: 200px;
-                overflow-y: auto;
-            }
-
-            .messages {
-                height: 300px;
-            }
-        }
-    </style>
+@media (max-width: 600px) {
+    .layout { flex-direction: column; }
+    .users, .chat-box { width: 100%; }
+    .users { max-height: 200px; overflow-y: auto; }
+    .messages { height: 300px; }
+}
+</style>
 </head>
 
 <body>
@@ -204,9 +191,7 @@
     <div class="welcome">
         <h3>Welcome, {{ username }}! 👋</h3>
         <p>Chat, Have Fun!</p>
-
-        <a href="{{ url_for('shorts') }}"
-           class="shorts-button">
+        <a href="{{ url_for('shorts') }}" class="shorts-button">
             🎬 Watch Shorts
         </a>
     </div>
@@ -222,22 +207,14 @@
         <div class="users">
             <h3>Friends / Users</h3>
 
-            {% if users %}
-
-                {% for user in users %}
-
-                    <a class="user-link"
-                       href="{{ url_for('chat', **{'with': user['username']}) }}">
-                        👤 {{ user["username"] }}
-                    </a>
-
-                {% endfor %}
-
+            {% for user in users %}
+                <a class="user-link"
+                   href="{{ url_for('chat', **{'with': user['username']}) }}">
+                    👤 {{ user["username"] }}
+                </a>
             {% else %}
-
                 <p>No other users yet.</p>
-
-            {% endif %}
+            {% endfor %}
         </div>
 
         <div class="chat-box">
@@ -248,67 +225,133 @@
 
                 <div class="messages" id="messages">
 
-                    {% if messages %}
+                    {% for msg in messages %}
 
-                        {% for msg in messages %}
+                        <div class="message
+                            {{ 'sent' if msg['sender_id'] == session['user_id'] else 'received' }}">
 
-                            {% if msg["sender_id"] == session["user_id"] %}
+                            <strong>
+                                {{ 'You' if msg['sender_id'] == session['user_id'] else msg['sender_username'] }}
+                            </strong>
 
-                                <div class="message sent">
-                                    <strong>You</strong>
-                                    <p>{{ msg["message"] }}</p>
-                                    <small>{{ msg["created_at"] }}</small>
-                                </div>
+                            {% if msg["message"] %}
+                                <p>{{ msg["message"] }}</p>
+                            {% endif %}
 
-                            {% else %}
+                            {% if msg["attachment_filename"] %}
 
-                                <div class="message received">
-                                    <strong>{{ msg["sender_username"] }}</strong>
-                                    <p>{{ msg["message"] }}</p>
-                                    <small>{{ msg["created_at"] }}</small>
-                                </div>
+                                {% if msg["attachment_type"] == "image" %}
+                                    <img
+                                        src="{{ url_for('view_upload', media_type='images', filename=msg['attachment_filename']) }}"
+                                        alt="Shared picture"
+                                        loading="lazy">
+                                {% elif msg["attachment_type"] == "audio" %}
+                                    <audio controls preload="metadata">
+                                        <source
+                                            src="{{ url_for('view_upload', media_type='voices', filename=msg['attachment_filename']) }}">
+                                        Your browser cannot play this audio.
+                                    </audio>
+                                {% endif %}
 
                             {% endif %}
 
-                        {% endfor %}
+                            <small>{{ msg["created_at"] }}</small>
+                        </div>
 
                     {% else %}
-
-                        <p class="empty">
-                            No messages yet. Say hello! 👋
-                        </p>
-
-                    {% endif %}
+                        <p class="empty">No messages yet. Say hello! 👋</p>
+                    {% endfor %}
 
                 </div>
 
-                <form action="/send-message" method="POST">
+                <!-- TEXT MESSAGE -->
+                <form action="{{ url_for('send_message') }}" method="POST">
+                    <input type="hidden" name="recipient"
+                           value="{{ recipient['username'] }}">
 
-                    <input
-                        type="hidden"
-                        name="recipient"
-                        value="{{ recipient['username'] }}"
-                    >
+                    <input type="text" name="message"
+                           placeholder="Write a message..."
+                           maxlength="2000"
+                           required autocomplete="off">
 
-                    <input
-                        type="text"
-                        name="message"
-                        placeholder="Write a message..."
-                        maxlength="2000"
-                        required
-                        autocomplete="off"
-                    >
+                    <button type="submit">Send Message 🚀</button>
+                </form>
+
+                <hr>
+
+                <!-- PICTURE AND VOICE UPLOAD -->
+                <form action="{{ url_for('send_media') }}"
+                      method="POST"
+                      enctype="multipart/form-data">
+
+                    <input type="hidden" name="recipient"
+                           value="{{ recipient['username'] }}">
+
+                    <input type="text" name="message"
+                           placeholder="Add a caption (optional)"
+                           maxlength="2000">
+
+                    <div class="attachments">
+
+                        <label class="file-label">
+                            📷 Choose Picture
+                            <input type="file"
+                                   name="picture"
+                                   id="picture"
+                                   accept="image/jpeg,image/png,image/webp,image/gif">
+                        </label>
+
+                        <label class="file-label">
+                            🎵 Choose Voice Note
+                            <input type="file"
+                                   name="voice"
+                                   id="voice"
+                                   accept="audio/*">
+                        </label>
+
+                    </div>
+
+                    <p id="fileStatus"></p>
 
                     <button type="submit">
-                        Send Message 🚀
+                        Send Attachment 📤
                     </button>
+                </form>
 
+                <hr>
+
+                <!-- RECORD VOICE NOTE -->
+                <h4>🎙️ Record Voice Note</h4>
+
+                <button type="button" id="recordButton">
+                    Start Recording
+                </button>
+
+                <p id="recordStatus"></p>
+
+                <audio id="preview" controls hidden></audio>
+
+                <form action="{{ url_for('send_media') }}"
+                      method="POST"
+                      enctype="multipart/form-data"
+                      id="voiceForm">
+
+                    <input type="hidden" name="recipient"
+                           value="{{ recipient['username'] }}">
+
+                    <input type="hidden" name="message" value="Voice note">
+
+                    <input type="file" name="voice"
+                           id="recordedVoice" hidden required>
+
+                    <button type="submit" id="sendVoice" hidden>
+                        Send Recorded Voice Note
+                    </button>
                 </form>
 
             {% else %}
 
                 <h3>Your Messages</h3>
-
                 <p class="empty">
                     Select a user on the left to start chatting.
                 </p>
@@ -316,17 +359,129 @@
             {% endif %}
 
         </div>
-
     </div>
-
 </div>
 
 <script>
-    const messagesBox = document.getElementById("messages");
+const messagesBox = document.getElementById("messages");
 
-    if (messagesBox) {
-        messagesBox.scrollTop = messagesBox.scrollHeight;
-    }
+if (messagesBox) {
+    messagesBox.scrollTop = messagesBox.scrollHeight;
+}
+
+const picture = document.getElementById("picture");
+const voice = document.getElementById("voice");
+const fileStatus = document.getElementById("fileStatus");
+
+if (picture && voice) {
+    picture.addEventListener("change", () => {
+        if (picture.files.length) {
+            voice.value = "";
+            fileStatus.textContent = picture.files[0].name;
+        }
+    });
+
+    voice.addEventListener("change", () => {
+        if (voice.files.length) {
+            picture.value = "";
+            fileStatus.textContent = voice.files[0].name;
+        }
+    });
+}
+
+// Voice recording
+const recordButton = document.getElementById("recordButton");
+const recordStatus = document.getElementById("recordStatus");
+const preview = document.getElementById("preview");
+const recordedVoice = document.getElementById("recordedVoice");
+const sendVoice = document.getElementById("sendVoice");
+
+let recorder;
+let audioChunks = [];
+let microphoneStream;
+
+if (recordButton) {
+    recordButton.addEventListener("click", async () => {
+
+        if (!recorder || recorder.state === "inactive") {
+            try {
+                if (!navigator.mediaDevices ||
+                    !navigator.mediaDevices.getUserMedia) {
+                    recordStatus.textContent =
+                        "Voice recording needs HTTPS and browser support.";
+                    return;
+                }
+
+                microphoneStream =
+                    await navigator.mediaDevices.getUserMedia({
+                        audio: true
+                    });
+
+                audioChunks = [];
+
+                const preferredType =
+                    MediaRecorder.isTypeSupported("audio/webm")
+                    ? "audio/webm"
+                    : "";
+
+                recorder = new MediaRecorder(
+                    microphoneStream,
+                    preferredType ? {mimeType: preferredType} : {}
+                );
+
+                recorder.ondataavailable = event => {
+                    if (event.data.size > 0) {
+                        audioChunks.push(event.data);
+                    }
+                };
+
+                recorder.onstop = () => {
+                    const audioBlob = new Blob(audioChunks, {
+                        type: recorder.mimeType || "audio/webm"
+                    });
+
+                    const extension =
+                        audioBlob.type.includes("ogg") ? "ogg" :
+                        audioBlob.type.includes("mp4") ? "mp4" : "webm";
+
+                    const audioFile = new File(
+                        [audioBlob],
+                        "voice-note." + extension,
+                        {type: audioBlob.type}
+                    );
+
+                    const transfer = new DataTransfer();
+                    transfer.items.add(audioFile);
+                    recordedVoice.files = transfer.files;
+
+                    preview.src = URL.createObjectURL(audioBlob);
+                    preview.hidden = false;
+                    sendVoice.hidden = false;
+
+                    recordStatus.textContent =
+                        "Recording ready. Listen before sending.";
+
+                    microphoneStream.getTracks().forEach(track => {
+                        track.stop();
+                    });
+                };
+
+                recorder.start();
+
+                recordButton.textContent = "Stop Recording";
+                recordStatus.textContent = "Recording...";
+
+            } catch (error) {
+                recordStatus.textContent =
+                    "Microphone permission was not granted or recording is unavailable.";
+            }
+
+        } else if (recorder.state === "recording") {
+            recorder.stop();
+            recordButton.textContent = "Record Again";
+        }
+    });
+}
 </script>
 
 </body>
