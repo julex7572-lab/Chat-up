@@ -1,215 +1,215 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ChatUp</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ChatUp - Chat, Have Fun!</title>
 
-    <style>
-        * {
-            box-sizing: border-box;
-        }
+<style>
+* { box-sizing: border-box; }
 
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background: #f4f7fb;
-            color: #172033;
-        }
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f4f7fb;
+    color: #172033;
+    padding-bottom: 85px;
+}
 
-        header {
-            background: #1769ff;
-            color: white;
-            padding: 18px 16px 12px;
-            position: sticky;
-            top: 0;
-            z-index: 10;
-        }
+header {
+    background: #1769ff;
+    color: white;
+    padding: 18px 16px 10px;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
 
-        .top-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 18px;
-        }
+.top-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 18px;
+}
 
-        .logo {
-            font-size: 26px;
-            font-weight: bold;
-        }
+.logo {
+    font-size: 26px;
+    font-weight: bold;
+}
 
-        .top-icons a {
-            color: white;
-            text-decoration: none;
-            font-size: 21px;
-            margin-left: 14px;
-        }
+.top-icons a {
+    color: white;
+    text-decoration: none;
+    font-size: 21px;
+    margin-left: 14px;
+}
 
-        .tabs {
-            display: flex;
-            gap: 22px;
-            overflow-x: auto;
-            scrollbar-width: none;
-        }
+.tabs {
+    display: flex;
+    gap: 22px;
+    overflow-x: auto;
+    scrollbar-width: none;
+}
 
-        .tabs::-webkit-scrollbar {
-            display: none;
-        }
+.tabs::-webkit-scrollbar { display: none; }
 
-        .tab {
-            color: #dce8ff;
-            text-decoration: none;
-            font-size: 13px;
-            font-weight: bold;
-            padding: 10px 0;
-            white-space: nowrap;
-        }
+.tab {
+    color: #dce8ff;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: bold;
+    padding: 10px 0;
+    white-space: nowrap;
+}
 
-        .tab.active {
-            color: white;
-            border-bottom: 3px solid white;
-        }
+.tab.active {
+    color: white;
+    border-bottom: 3px solid white;
+}
 
-        .search {
-            margin: 16px;
-            background: white;
-            padding: 12px 15px;
-            border-radius: 25px;
-            display: flex;
-            gap: 10px;
-            box-shadow: 0 2px 8px #00000008;
-        }
+.search {
+    margin: 16px;
+    background: white;
+    padding: 13px 15px;
+    border-radius: 25px;
+    display: flex;
+    gap: 10px;
+    box-shadow: 0 2px 8px #00000008;
+}
 
-        .search input {
-            border: none;
-            outline: none;
-            width: 100%;
-            font-size: 15px;
-            background: transparent;
-        }
+.search input {
+    border: none;
+    outline: none;
+    width: 100%;
+    font-size: 15px;
+}
 
-        .section-title {
-            padding: 4px 16px 12px;
-            color: #1769ff;
-            font-size: 14px;
-            font-weight: bold;
-        }
+.section-title {
+    padding: 4px 16px 12px;
+    color: #1769ff;
+    font-size: 14px;
+    font-weight: bold;
+}
 
-        .chat-list {
-            background: white;
-        }
+.chat-list { background: white; }
 
-        .chat-item {
-            display: flex;
-            align-items: center;
-            padding: 14px 16px;
-            border-bottom: 1px solid #eef1f6;
-            text-decoration: none;
-            color: inherit;
-            gap: 12px;
-        }
+.chat-item {
+    display: flex;
+    align-items: center;
+    padding: 14px 16px;
+    border-bottom: 1px solid #eef1f6;
+    text-decoration: none;
+    color: inherit;
+    gap: 12px;
+}
 
-        .avatar {
-            width: 52px;
-            height: 52px;
-            border-radius: 50%;
-            background: #dce8ff;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 25px;
-            flex-shrink: 0;
-        }
+.avatar {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: #dce8ff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 25px;
+    flex-shrink: 0;
+}
 
-        .chat-info {
-            flex: 1;
-            min-width: 0;
-        }
+.chat-info { flex: 1; min-width: 0; }
 
-        .chat-name {
-            font-size: 16px;
-            font-weight: bold;
-            margin-bottom: 6px;
-        }
+.chat-name {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 6px;
+}
 
-        .last-message {
-            font-size: 13px;
-            color: #778195;
-            overflow: hidden;
-            white-space: nowrap;
-            text-overflow: ellipsis;
-        }
+.last-message {
+    font-size: 13px;
+    color: #778195;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
 
-        .chat-time {
-            font-size: 11px;
-            color: #778195;
-        }
+.chat-time {
+    font-size: 11px;
+    color: #778195;
+}
 
-        .empty {
-            text-align: center;
-            padding: 45px 20px;
-            color: #778195;
-            line-height: 1.7;
-        }
+.empty {
+    text-align: center;
+    padding: 45px 20px;
+    color: #778195;
+    line-height: 1.7;
+}
 
-        .empty strong {
-            display: block;
-            color: #1769ff;
-            font-size: 18px;
-            margin-bottom: 8px;
-        }
+.empty strong {
+    display: block;
+    color: #1769ff;
+    font-size: 18px;
+    margin-bottom: 8px;
+}
 
-        .new-chat {
-            position: fixed;
-            right: 20px;
-            bottom: 25px;
-            width: 58px;
-            height: 58px;
-            border-radius: 18px;
-            background: #1769ff;
-            color: white;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 28px;
-            text-decoration: none;
-            box-shadow: 0 5px 15px #1769ff55;
-        }
+.primary-button {
+    display: inline-block;
+    background: #1769ff;
+    color: white;
+    padding: 12px 20px;
+    border-radius: 10px;
+    text-decoration: none;
+    margin: 5px;
+}
 
-        .bottom-nav {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: white;
-            display: flex;
-            justify-content: space-around;
-            padding: 10px 0;
-            border-top: 1px solid #e7ebf2;
-        }
+.new-chat {
+    position: fixed;
+    right: 20px;
+    bottom: 90px;
+    width: 58px;
+    height: 58px;
+    border-radius: 18px;
+    background: #1769ff;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 28px;
+    text-decoration: none;
+    box-shadow: 0 5px 15px #1769ff55;
+}
 
-        .bottom-nav a {
-            text-decoration: none;
-            color: #778195;
-            text-align: center;
-            font-size: 11px;
-        }
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: white;
+    display: flex;
+    justify-content: space-around;
+    padding: 10px 0;
+    border-top: 1px solid #e7ebf2;
+    z-index: 20;
+}
 
-        .bottom-nav span {
-            display: block;
-            font-size: 21px;
-            margin-bottom: 4px;
-        }
+.bottom-nav a {
+    text-decoration: none;
+    color: #778195;
+    text-align: center;
+    font-size: 11px;
+}
 
-        .bottom-nav .selected {
-            color: #1769ff;
-            font-weight: bold;
-        }
+.bottom-nav span {
+    display: block;
+    font-size: 21px;
+    margin-bottom: 4px;
+}
 
-        .page-space {
-            height: 90px;
-        }
-    </style>
+.bottom-nav .selected {
+    color: #1769ff;
+    font-weight: bold;
+}
+
+</style>
 </head>
 
 <body>
@@ -219,22 +219,28 @@
         <div class="logo">💬 ChatUp</div>
 
         <div class="top-icons">
-            <a href="/signup" aria-label="Search friends">🔍</a>
-            <a href="/chat" aria-label="Messages">✉️</a>
-            <a href="/signup" aria-label="More options">⋮</a>
+            <a href="#search" aria-label="Search">🔍</a>
+
+            {% if logged_in %}
+            <a href="{{ url_for('chat') }}" aria-label="Messages">✉️</a>
+            <a href="{{ url_for('logout') }}" aria-label="Logout">↪</a>
+            {% else %}
+            <a href="{{ url_for('login') }}">✉️</a>
+            <a href="{{ url_for('signup') }}">⋮</a>
+            {% endif %}
         </div>
     </div>
 
     <nav class="tabs">
         <a class="tab active" href="/">CHATS</a>
-        <a class="tab" href="/?section=status">STATUS</a>
-        <a class="tab" href="/?section=calls">CALLS</a>
-        <a class="tab" href="/?section=channels">CHANNELS</a>
-        <a class="tab" href="/?section=videos">VIDEOS</a>
+        <a class="tab" href="#status">STATUS</a>
+        <a class="tab" href="#calls">CALLS</a>
+        <a class="tab" href="#channels">CHANNELS</a>
+        <a class="tab" href="{{ url_for('shorts') if logged_in else url_for('login') }}">VIDEOS</a>
     </nav>
 </header>
 
-<div class="search">
+<div class="search" id="search">
     <span>🔍</span>
     <input
         type="search"
@@ -247,51 +253,110 @@
 <div class="section-title">YOUR CONVERSATIONS</div>
 
 <div class="chat-list" id="chatList">
+
+{% if logged_in %}
+
+    {% if chats %}
+
+        {% for person in chats %}
+        <a class="chat-item"
+           href="{{ url_for('chat') }}?with={{ person['username']|urlencode }}">
+
+            <div class="avatar">👤</div>
+
+            <div class="chat-info">
+                <div class="chat-name">
+                    {{ person['username'] }}
+                </div>
+
+                <div class="last-message">
+                    {{ person['last_message'] or 'Start a conversation' }}
+                </div>
+            </div>
+
+            <div class="chat-time">
+                {{ person['last_time'] or '' }}
+            </div>
+
+        </a>
+        {% endfor %}
+
+    {% else %}
+
+        <div class="empty">
+            <strong>Welcome to ChatUp, {{ username }}! 💙</strong>
+            You are ready to start chatting.
+            <br>
+            There are no other users yet.
+            <br><br>
+            <a class="primary-button" href="{{ url_for('signup') }}">
+                Invite a friend
+            </a>
+        </div>
+
+    {% endif %}
+
+{% else %}
+
     <div class="empty">
         <strong>Welcome to ChatUp! 💙</strong>
-        Your conversations will appear here.<br>
+        Chat, connect and have fun.
+        <br>
         Create an account or log in to get started.
         <br><br>
-        <a href="/signup"
-           style="display:inline-block;background:#1769ff;color:white;
-           padding:12px 20px;border-radius:10px;text-decoration:none;">
+
+        <a class="primary-button" href="{{ url_for('signup') }}">
             Get Started
         </a>
+
+        <a class="primary-button" href="{{ url_for('login') }}">
+            Log In
+        </a>
     </div>
+
+{% endif %}
+
 </div>
 
-<div class="page-space"></div>
-
-<a class="new-chat" href="/signup" aria-label="Start a new chat">＋</a>
+{% if logged_in %}
+<a class="new-chat"
+   href="{{ url_for('chat') }}"
+   aria-label="Start a new chat">＋</a>
+{% endif %}
 
 <nav class="bottom-nav">
     <a class="selected" href="/">
         <span>💬</span>Chats
     </a>
-    <a href="/?section=status">
+
+    <a href="#status">
         <span>⭕</span>Status
     </a>
-    <a href="/?section=calls">
+
+    <a href="#calls">
         <span>📞</span>Calls
     </a>
-    <a href="/?section=channels">
+
+    <a href="#channels">
         <span>📢</span>Channels
     </a>
-    <a href="/signup">
-        <span>👤</span>Profile
+
+    <a href="{{ url_for('logout') if logged_in else url_for('login') }}">
+        <span>👤</span>{{ 'Logout' if logged_in else 'Profile' }}
     </a>
 </nav>
 
 <script>
-    function filterChats() {
-        const search = document.getElementById("chatSearch");
-        const query = search.value.toLowerCase();
+function filterChats() {
+    const query = document
+        .getElementById("chatSearch")
+        .value.toLowerCase();
 
-        document.querySelectorAll(".chat-item").forEach(function(item) {
-            const text = item.innerText.toLowerCase();
-            item.style.display = text.includes(query) ? "flex" : "none";
-        });
-    }
+    document.querySelectorAll(".chat-item").forEach(function(item) {
+        const text = item.innerText.toLowerCase();
+        item.style.display = text.includes(query) ? "flex" : "none";
+    });
+}
 </script>
 
 </body>
