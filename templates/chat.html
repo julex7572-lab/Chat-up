@@ -4,110 +4,252 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>ChatUp - Chat, Have Fun!</title>
+<title>ChatUp - Messages</title>
 
 <style>
-* { box-sizing: border-box; }
+* {
+    box-sizing: border-box;
+}
 
 body {
     margin: 0;
     font-family: Arial, sans-serif;
-    background: #eef3ff;
-    color: #222;
+    background: #101719;
+    color: white;
 }
+
+/* MAIN HEADER */
 
 header {
-    background: #1769ff;
-    color: white;
-    padding: 16px;
+    height: 75px;
+    background: #202c33;
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    justify-content: space-between;
+    padding: 0 16px;
+    border-bottom: 1px solid #34434a;
 }
 
-header h2 { margin: 0; }
-header a { color: white; text-decoration: none; }
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.back-button {
+    color: white;
+    font-size: 25px;
+    text-decoration: none;
+}
+
+.logo {
+    font-size: 23px;
+    font-weight: bold;
+    color: white;
+}
+
+.header-actions a {
+    color: white;
+    text-decoration: none;
+    margin-left: 15px;
+    font-size: 14px;
+}
+
+/* MAIN LAYOUT */
 
 .container {
-    max-width: 900px;
-    margin: 20px auto;
+    max-width: 1100px;
+    margin: auto;
     padding: 12px;
 }
 
-.welcome, .users, .chat-box {
-    background: white;
-    padding: 15px;
+.layout {
+    display: flex;
+    gap: 12px;
+    min-height: calc(100vh - 100px);
+}
+
+/* CONTACTS */
+
+.users {
+    width: 270px;
+    flex-shrink: 0;
+    background: #202c33;
     border-radius: 12px;
-    box-shadow: 0 3px 12px #0001;
+    padding: 14px;
 }
 
-.welcome { margin-bottom: 15px; }
-
-.shorts-button {
-    display: inline-block;
-    background: #1769ff;
+.users h3 {
+    margin-top: 5px;
     color: white;
-    padding: 12px 22px;
-    border-radius: 8px;
-    text-decoration: none;
-    font-weight: bold;
 }
-
-.layout { display: flex; gap: 15px; }
-.users { width: 30%; }
-.chat-box { width: 70%; }
 
 .user-link {
-    display: block;
-    padding: 12px;
-    margin-bottom: 8px;
-    border-radius: 8px;
-    background: #f1f5ff;
-    color: #1769ff;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 13px 10px;
+    margin-bottom: 5px;
+    border-radius: 9px;
+    color: white;
     text-decoration: none;
     overflow-wrap: anywhere;
 }
 
+.user-link:hover,
+.user-link.active {
+    background: #34434a;
+}
+
+.user-avatar {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: #1769ff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 20px;
+}
+
+/* CHAT WINDOW */
+
+.chat-box {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    background: #111b21;
+    border-radius: 12px;
+    overflow: hidden;
+    min-height: 650px;
+}
+
+/* CONTACT HEADER */
+
+.contact-header {
+    min-height: 75px;
+    background: #202c33;
+    display: flex;
+    align-items: center;
+    padding: 10px 15px;
+    gap: 12px;
+    border-bottom: 1px solid #34434a;
+}
+
+.contact-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: #1769ff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 23px;
+}
+
+.contact-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.contact-info strong {
+    font-size: 16px;
+}
+
+.contact-info small {
+    display: block;
+    color: #aebac1;
+    margin-top: 5px;
+    font-size: 12px;
+}
+
+.contact-actions {
+    font-size: 20px;
+    color: #d5e0e6;
+}
+
+/* MESSAGE AREA */
+
 .messages {
-    height: 350px;
+    flex: 1;
+    min-height: 350px;
+    max-height: 65vh;
     overflow-y: auto;
-    padding: 12px;
-    background: #f7f9ff;
-    border-radius: 10px;
-    margin-bottom: 15px;
+    padding: 18px 14px;
+    background-color: #101719;
+
+    background-image:
+        radial-gradient(circle at 20% 30%,
+            #26343a 1px, transparent 2px),
+        radial-gradient(circle at 70% 70%,
+            #26343a 1px, transparent 2px);
+
+    background-size: 35px 35px, 45px 45px;
+}
+
+.date-divider {
+    text-align: center;
+    margin: 10px auto 20px;
+}
+
+.date-divider span {
+    background: #26343a;
+    color: #d4dde2;
+    padding: 7px 13px;
+    border-radius: 8px;
+    font-size: 12px;
 }
 
 .message {
-    padding: 10px 12px;
-    margin: 8px 0;
-    border-radius: 12px;
-    max-width: 85%;
+    width: fit-content;
+    max-width: 82%;
+    padding: 9px 12px;
+    margin: 9px 0;
+    border-radius: 10px;
     overflow-wrap: anywhere;
+    position: relative;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.message p {
+    margin: 3px 0;
+    white-space: pre-wrap;
 }
 
 .sent {
-    background: #1769ff;
+    background: #075e54;
     color: white;
     margin-left: auto;
+    border-top-right-radius: 2px;
 }
 
 .received {
-    background: #e2e8f0;
-    color: #222;
+    background: #202c33;
+    color: white;
     margin-right: auto;
+    border-top-left-radius: 2px;
+}
+
+.message strong {
+    font-size: 11px;
+    color: #a9d8ff;
 }
 
 .message small {
     display: block;
-    font-size: 11px;
+    text-align: right;
+    font-size: 10px;
+    color: #c1d0d5;
     margin-top: 5px;
-    opacity: 0.8;
 }
 
 .message img {
     display: block;
     max-width: 100%;
-    max-height: 250px;
+    max-height: 280px;
     border-radius: 8px;
     margin-top: 8px;
 }
@@ -115,86 +257,226 @@ header a { color: white; text-decoration: none; }
 .message audio {
     display: block;
     max-width: 100%;
+    width: 260px;
     margin-top: 8px;
-}
-
-input[type="text"] {
-    width: 100%;
-    padding: 13px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    margin-bottom: 10px;
-    font-size: 16px;
-}
-
-button, .file-label {
-    display: inline-block;
-    padding: 12px;
-    background: #1769ff;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    font-size: 15px;
-    cursor: pointer;
-    text-align: center;
-}
-
-button { width: 100%; }
-
-.attachments {
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-    margin: 10px 0;
-}
-
-.attachments input { display: none; }
-
-#recordStatus {
-    font-size: 13px;
-    color: #1769ff;
-    margin: 8px 0;
-}
-
-.flash {
-    background: #fff3cd;
-    color: #664d03;
-    padding: 12px;
-    border-radius: 8px;
-    margin-bottom: 12px;
 }
 
 .empty {
     text-align: center;
-    color: #777;
-    padding-top: 80px;
+    color: #aebac1;
+    padding: 60px 15px;
+    line-height: 1.7;
 }
 
-@media (max-width: 600px) {
-    .layout { flex-direction: column; }
-    .users, .chat-box { width: 100%; }
-    .users { max-height: 200px; overflow-y: auto; }
-    .messages { height: 300px; }
+/* MESSAGE COMPOSER */
+
+.composer {
+    background: #202c33;
+    padding: 10px;
+    border-top: 1px solid #34434a;
 }
+
+.message-form {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+}
+
+.message-form input {
+    flex: 1;
+    min-width: 0;
+    background: #2a3942;
+    color: white;
+    border: none;
+    outline: none;
+    border-radius: 25px;
+    padding: 14px 16px;
+    font-size: 15px;
+}
+
+.message-form input::placeholder {
+    color: #aebac1;
+}
+
+.icon-button {
+    border: none;
+    background: transparent;
+    color: #c4d0d6;
+    font-size: 23px;
+    cursor: pointer;
+    padding: 7px;
+}
+
+.send-button {
+    width: 45px;
+    height: 45px;
+    border: none;
+    border-radius: 50%;
+    background: #1769ff;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+/* ATTACHMENTS */
+
+.attachment-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 10px;
+    flex-wrap: wrap;
+}
+
+.file-label {
+    background: #2a3942;
+    color: #dce5e9;
+    padding: 9px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.attachment-row input[type="file"] {
+    display: none;
+}
+
+#fileStatus {
+    color: #aebac1;
+    font-size: 12px;
+}
+
+.upload-button {
+    border: none;
+    background: #1769ff;
+    color: white;
+    padding: 9px 14px;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+.record-area {
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.record-button {
+    background: transparent;
+    color: #dce5e9;
+    border: 1px solid #53636c;
+    border-radius: 20px;
+    padding: 9px 13px;
+    cursor: pointer;
+}
+
+#recordStatus {
+    font-size: 12px;
+    color: #aebac1;
+}
+
+#preview {
+    width: 100%;
+    max-width: 280px;
+    margin-top: 8px;
+}
+
+.voice-send {
+    background: #075e54;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    padding: 9px 13px;
+    cursor: pointer;
+}
+
+/* FLASH MESSAGES */
+
+.flash {
+    background: #34434a;
+    color: white;
+    padding: 12px;
+    border-radius: 8px;
+    margin: 10px 0;
+}
+
+/* RESPONSIVE DESIGN */
+
+@media (max-width: 650px) {
+
+    header {
+        height: 65px;
+    }
+
+    .container {
+        padding: 0;
+    }
+
+    .layout {
+        display: block;
+        min-height: calc(100dvh - 65px);
+    }
+
+    .users {
+        width: auto;
+        margin: 8px;
+        padding: 10px;
+    }
+
+    .chat-box {
+        min-height: calc(100dvh - 65px);
+        border-radius: 0;
+    }
+
+    .contact-header {
+        min-height: 68px;
+    }
+
+    .messages {
+        max-height: none;
+        min-height: 0;
+        flex: 1;
+        padding: 15px 10px;
+    }
+
+    .message {
+        max-width: 88%;
+    }
+
+    .composer {
+        padding: 9px;
+        padding-bottom: max(9px, env(safe-area-inset-bottom));
+    }
+
+    .users h3 {
+        font-size: 15px;
+    }
+
+    .user-link {
+        padding: 9px;
+    }
+}
+
 </style>
 </head>
 
 <body>
 
 <header>
-    <h2>💬 ChatUp</h2>
-    <a href="/logout">Log out</a>
+    <div class="header-left">
+        <a class="back-button" href="{{ url_for('home') }}">‹</a>
+        <div class="logo">💬 ChatUp</div>
+    </div>
+
+    <div class="header-actions">
+        <a href="{{ url_for('shorts') }}">🎬 Shorts</a>
+        <a href="{{ url_for('logout') }}">Log out</a>
+    </div>
 </header>
 
 <div class="container">
-
-    <div class="welcome">
-        <h3>Welcome, {{ username }}! 👋</h3>
-        <p>Chat, Have Fun!</p>
-        <a href="{{ url_for('shorts') }}" class="shorts-button">
-            🎬 Watch Shorts
-        </a>
-    </div>
 
     {% with alerts = get_flashed_messages() %}
         {% for alert in alerts %}
@@ -204,31 +486,67 @@ button { width: 100%; }
 
     <div class="layout">
 
-        <div class="users">
-            <h3>Friends / Users</h3>
+        <!-- CONTACTS -->
+
+        <aside class="users">
+
+            <h3>Chats 💬</h3>
 
             {% for user in users %}
-                <a class="user-link"
-                   href="{{ url_for('chat', **{'with': user['username']}) }}">
-                    👤 {{ user["username"] }}
-                </a>
-            {% else %}
-                <p>No other users yet.</p>
-            {% endfor %}
-        </div>
 
-        <div class="chat-box">
+                <a class="user-link
+                   {% if recipient and recipient['id'] == user['id'] %}active{% endif %}"
+                   href="{{ url_for('chat', **{'with': user['username']}) }}">
+
+                    <div class="user-avatar">👤</div>
+
+                    <div>
+                        {{ user["username"] }}
+                    </div>
+
+                </a>
+
+            {% else %}
+
+                <p style="color:#aebac1;">No other users yet.</p>
+
+            {% endfor %}
+
+        </aside>
+
+        <!-- CHAT WINDOW -->
+
+        <main class="chat-box">
 
             {% if recipient %}
 
-                <h3>Chat with {{ recipient["username"] }}</h3>
+                <!-- CONTACT HEADER -->
+
+                <div class="contact-header">
+
+                    <div class="contact-avatar">👤</div>
+
+                    <div class="contact-info">
+                        <strong>{{ recipient["username"] }}</strong>
+                        <small>ChatUp conversation</small>
+                    </div>
+
+                    <div class="contact-actions">⋮</div>
+
+                </div>
+
+                <!-- MESSAGES -->
 
                 <div class="messages" id="messages">
+
+                    <div class="date-divider">
+                        <span>Messages</span>
+                    </div>
 
                     {% for msg in messages %}
 
                         <div class="message
-                            {{ 'sent' if msg['sender_id'] == session['user_id'] else 'received' }}">
+                        {{ 'sent' if msg['sender_id'] == session['user_id'] else 'received' }}">
 
                             <strong>
                                 {{ 'You' if msg['sender_id'] == session['user_id'] else msg['sender_username'] }}
@@ -241,155 +559,236 @@ button { width: 100%; }
                             {% if msg["attachment_filename"] %}
 
                                 {% if msg["attachment_type"] == "image" %}
+
                                     <img
                                         src="{{ url_for('view_upload', media_type='images', filename=msg['attachment_filename']) }}"
                                         alt="Shared picture"
                                         loading="lazy">
+
                                 {% elif msg["attachment_type"] == "audio" %}
+
                                     <audio controls preload="metadata">
-                                        <source
-                                            src="{{ url_for('view_upload', media_type='voices', filename=msg['attachment_filename']) }}">
+                                        <source src="{{ url_for('view_upload', media_type='voices', filename=msg['attachment_filename']) }}">
                                         Your browser cannot play this audio.
                                     </audio>
+
                                 {% endif %}
 
                             {% endif %}
 
                             <small>{{ msg["created_at"] }}</small>
+
                         </div>
 
                     {% else %}
-                        <p class="empty">No messages yet. Say hello! 👋</p>
+
+                        <p class="empty">
+                            No messages yet.<br>
+                            Say hello! 👋
+                        </p>
+
                     {% endfor %}
 
                 </div>
 
-                <!-- TEXT MESSAGE -->
-                <form action="{{ url_for('send_message') }}" method="POST">
-                    <input type="hidden" name="recipient"
-                           value="{{ recipient['username'] }}">
+                <!-- MESSAGE COMPOSER -->
 
-                    <input type="text" name="message"
-                           placeholder="Write a message..."
-                           maxlength="2000"
-                           required autocomplete="off">
+                <div class="composer">
 
-                    <button type="submit">Send Message 🚀</button>
-                </form>
+                    <!-- TEXT MESSAGE -->
 
-                <hr>
+                    <form
+                        action="{{ url_for('send_message') }}"
+                        method="POST"
+                        class="message-form">
 
-                <!-- PICTURE AND VOICE UPLOAD -->
-                <form action="{{ url_for('send_media') }}"
-                      method="POST"
-                      enctype="multipart/form-data">
+                        <input
+                            type="hidden"
+                            name="recipient"
+                            value="{{ recipient['username'] }}">
 
-                    <input type="hidden" name="recipient"
-                           value="{{ recipient['username'] }}">
+                        <input
+                            type="text"
+                            name="message"
+                            placeholder="Message"
+                            maxlength="2000"
+                            required
+                            autocomplete="off">
 
-                    <input type="text" name="message"
-                           placeholder="Add a caption (optional)"
-                           maxlength="2000">
+                        <button class="send-button" type="submit">
+                            ➤
+                        </button>
 
-                    <div class="attachments">
+                    </form>
 
-                        <label class="file-label">
-                            📷 Choose Picture
-                            <input type="file"
-                                   name="picture"
-                                   id="picture"
-                                   accept="image/jpeg,image/png,image/webp,image/gif">
-                        </label>
+                    <!-- PICTURE AND AUDIO UPLOAD -->
 
-                        <label class="file-label">
-                            🎵 Choose Voice Note
-                            <input type="file"
-                                   name="voice"
-                                   id="voice"
-                                   accept="audio/*">
-                        </label>
+                    <form
+                        action="{{ url_for('send_media') }}"
+                        method="POST"
+                        enctype="multipart/form-data">
+
+                        <input
+                            type="hidden"
+                            name="recipient"
+                            value="{{ recipient['username'] }}">
+
+                        <input
+                            type="hidden"
+                            name="message"
+                            value="">
+
+                        <div class="attachment-row">
+
+                            <label class="file-label">
+                                📷 Picture
+                                <input
+                                    type="file"
+                                    name="picture"
+                                    id="picture"
+                                    accept="image/jpeg,image/png,image/webp,image/gif">
+                            </label>
+
+                            <label class="file-label">
+                                🎵 Voice file
+                                <input
+                                    type="file"
+                                    name="voice"
+                                    id="voice"
+                                    accept="audio/*">
+                            </label>
+
+                            <span id="fileStatus"></span>
+
+                            <button
+                                class="upload-button"
+                                type="submit">
+                                Send
+                            </button>
+
+                        </div>
+
+                    </form>
+
+                    <!-- VOICE RECORDING -->
+
+                    <div class="record-area">
+
+                        <button
+                            type="button"
+                            class="record-button"
+                            id="recordButton">
+                            🎙️ Record voice
+                        </button>
+
+                        <span id="recordStatus"></span>
 
                     </div>
 
-                    <p id="fileStatus"></p>
+                    <audio id="preview" controls hidden></audio>
 
-                    <button type="submit">
-                        Send Attachment 📤
-                    </button>
-                </form>
+                    <form
+                        action="{{ url_for('send_media') }}"
+                        method="POST"
+                        enctype="multipart/form-data"
+                        id="voiceForm">
 
-                <hr>
+                        <input
+                            type="hidden"
+                            name="recipient"
+                            value="{{ recipient['username'] }}">
 
-                <!-- RECORD VOICE NOTE -->
-                <h4>🎙️ Record Voice Note</h4>
+                        <input
+                            type="hidden"
+                            name="message"
+                            value="Voice note">
 
-                <button type="button" id="recordButton">
-                    Start Recording
-                </button>
+                        <input
+                            type="file"
+                            name="voice"
+                            id="recordedVoice"
+                            hidden
+                            required>
 
-                <p id="recordStatus"></p>
+                        <button
+                            type="submit"
+                            class="voice-send"
+                            id="sendVoice"
+                            hidden>
+                            Send voice note
+                        </button>
 
-                <audio id="preview" controls hidden></audio>
+                    </form>
 
-                <form action="{{ url_for('send_media') }}"
-                      method="POST"
-                      enctype="multipart/form-data"
-                      id="voiceForm">
-
-                    <input type="hidden" name="recipient"
-                           value="{{ recipient['username'] }}">
-
-                    <input type="hidden" name="message" value="Voice note">
-
-                    <input type="file" name="voice"
-                           id="recordedVoice" hidden required>
-
-                    <button type="submit" id="sendVoice" hidden>
-                        Send Recorded Voice Note
-                    </button>
-                </form>
+                </div>
 
             {% else %}
 
-                <h3>Your Messages</h3>
-                <p class="empty">
-                    Select a user on the left to start chatting.
-                </p>
+                <div class="contact-header">
+                    <div class="contact-avatar">💬</div>
+                    <div class="contact-info">
+                        <strong>ChatUp</strong>
+                        <small>Select a contact to start chatting</small>
+                    </div>
+                </div>
+
+                <div class="messages">
+                    <p class="empty">
+                        Welcome to ChatUp! 💙<br><br>
+                        Select a friend from the contacts list to start a conversation.
+                    </p>
+                </div>
 
             {% endif %}
 
-        </div>
+        </main>
+
     </div>
+
 </div>
 
 <script>
+
+// Scroll to latest message
+
 const messagesBox = document.getElementById("messages");
 
 if (messagesBox) {
     messagesBox.scrollTop = messagesBox.scrollHeight;
 }
 
+
+// Picture and voice file selection
+
 const picture = document.getElementById("picture");
 const voice = document.getElementById("voice");
 const fileStatus = document.getElementById("fileStatus");
 
 if (picture && voice) {
-    picture.addEventListener("change", () => {
+
+    picture.addEventListener("change", function() {
+
         if (picture.files.length) {
             voice.value = "";
             fileStatus.textContent = picture.files[0].name;
         }
+
     });
 
-    voice.addEventListener("change", () => {
+    voice.addEventListener("change", function() {
+
         if (voice.files.length) {
             picture.value = "";
             fileStatus.textContent = voice.files[0].name;
         }
+
     });
+
 }
 
+
 // Voice recording
+
 const recordButton = document.getElementById("recordButton");
 const recordStatus = document.getElementById("recordStatus");
 const preview = document.getElementById("preview");
@@ -400,15 +799,22 @@ let recorder;
 let audioChunks = [];
 let microphoneStream;
 
+
 if (recordButton) {
-    recordButton.addEventListener("click", async () => {
+
+    recordButton.addEventListener("click", async function() {
 
         if (!recorder || recorder.state === "inactive") {
+
             try {
+
                 if (!navigator.mediaDevices ||
-                    !navigator.mediaDevices.getUserMedia) {
+                    !navigator.mediaDevices.getUserMedia ||
+                    !window.MediaRecorder) {
+
                     recordStatus.textContent =
-                        "Voice recording needs HTTPS and browser support.";
+                        "Voice recording is not supported by this browser.";
+
                     return;
                 }
 
@@ -419,23 +825,29 @@ if (recordButton) {
 
                 audioChunks = [];
 
-                const preferredType =
-                    MediaRecorder.isTypeSupported("audio/webm")
-                    ? "audio/webm"
-                    : "";
+                let mimeType = "";
+
+                if (MediaRecorder.isTypeSupported("audio/webm")) {
+                    mimeType = "audio/webm";
+                } else if (MediaRecorder.isTypeSupported("audio/ogg")) {
+                    mimeType = "audio/ogg";
+                }
 
                 recorder = new MediaRecorder(
                     microphoneStream,
-                    preferredType ? {mimeType: preferredType} : {}
+                    mimeType ? {mimeType: mimeType} : {}
                 );
 
-                recorder.ondataavailable = event => {
+                recorder.ondataavailable = function(event) {
+
                     if (event.data.size > 0) {
                         audioChunks.push(event.data);
                     }
+
                 };
 
-                recorder.onstop = () => {
+                recorder.onstop = function() {
+
                     const audioBlob = new Blob(audioChunks, {
                         type: recorder.mimeType || "audio/webm"
                     });
@@ -451,37 +863,49 @@ if (recordButton) {
                     );
 
                     const transfer = new DataTransfer();
+
                     transfer.items.add(audioFile);
+
                     recordedVoice.files = transfer.files;
 
                     preview.src = URL.createObjectURL(audioBlob);
                     preview.hidden = false;
+
                     sendVoice.hidden = false;
 
                     recordStatus.textContent =
-                        "Recording ready. Listen before sending.";
+                        "Voice note ready. Listen before sending.";
 
-                    microphoneStream.getTracks().forEach(track => {
+                    microphoneStream.getTracks().forEach(function(track) {
                         track.stop();
                     });
+
                 };
 
                 recorder.start();
 
-                recordButton.textContent = "Stop Recording";
+                recordButton.textContent = "⏹ Stop recording";
                 recordStatus.textContent = "Recording...";
 
             } catch (error) {
+
                 recordStatus.textContent =
-                    "Microphone permission was not granted or recording is unavailable.";
+                    "Please allow microphone access and try again.";
+
             }
 
         } else if (recorder.state === "recording") {
+
             recorder.stop();
-            recordButton.textContent = "Record Again";
+
+            recordButton.textContent = "🎙️ Record again";
+
         }
+
     });
+
 }
+
 </script>
 
 </body>
