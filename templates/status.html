@@ -1,1 +1,429 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ChatUp - Updates</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background: #071117;
+    color: #e9edef;
+    font-family: Arial, sans-serif;
+}
+
+header {
+    height: 65px;
+    padding: 0 18px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #17252c;
+    position: sticky;
+    top: 0;
+    background: #071117;
+    z-index: 10;
+}
+
+.logo {
+    font-size: 23px;
+    font-weight: bold;
+    color: #25d366;
+}
+
+.header-icons {
+    display: flex;
+    gap: 22px;
+    font-size: 21px;
+}
+
+.container {
+    max-width: 650px;
+    margin: auto;
+    padding: 15px;
+}
+
+.section-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 18px 0 14px;
+}
+
+.section-title h3 {
+    font-size: 20px;
+    margin: 0;
+}
+
+.status-list {
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+    padding-bottom: 12px;
+}
+
+.status-list::-webkit-scrollbar {
+    display: none;
+}
+
+.status-card {
+    flex: 0 0 125px;
+    height: 210px;
+    border-radius: 17px;
+    overflow: hidden;
+    position: relative;
+    background: #263640;
+    border: 1px solid #263640;
+}
+
+.status-card img,
+.status-card video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.status-card::after {
+    content: "";
+    position: absolute;
+    inset: 45% 0 0;
+    background: linear-gradient(transparent, rgba(0,0,0,.8));
+}
+
+.status-avatar {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    width: 39px;
+    height: 39px;
+    border-radius: 50%;
+    border: 3px solid #25d366;
+    background: #17252c;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    z-index: 2;
+}
+
+.add-plus {
+    position: absolute;
+    bottom: 2px;
+    right: -5px;
+    background: #25d366;
+    color: #071117;
+    width: 19px;
+    height: 19px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    font-size: 16px;
+}
+
+.status-name {
+    position: absolute;
+    bottom: 12px;
+    left: 10px;
+    right: 5px;
+    font-size: 14px;
+    z-index: 2;
+    font-weight: bold;
+    overflow-wrap: anywhere;
+}
+
+.add-card {
+    background: #263640;
+    border: none;
+    cursor: pointer;
+    color: white;
+    font-family: inherit;
+}
+
+.add-card .status-avatar {
+    border: none;
+}
+
+.add-card .status-name {
+    font-size: 14px;
+}
+
+.channel-heading {
+    margin-top: 25px;
+}
+
+.channel-heading span {
+    color: #25d366;
+    font-size: 25px;
+}
+
+.channel {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    padding: 13px 0;
+    border-bottom: 1px solid #17252c;
+}
+
+.channel-avatar {
+    width: 49px;
+    height: 49px;
+    border-radius: 50%;
+    background: #263640;
+    display: grid;
+    place-items: center;
+    font-size: 22px;
+    flex-shrink: 0;
+}
+
+.channel-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.channel-info strong {
+    font-size: 16px;
+}
+
+.channel-info p {
+    color: #9aa8ae;
+    font-size: 13px;
+    margin: 5px 0 0;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.channel-time {
+    color: #25d366;
+    font-size: 12px;
+}
+
+.empty {
+    color: #9aa8ae;
+    font-size: 14px;
+    padding: 15px 0;
+}
+
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 72px;
+    background: #101d24;
+    border-top: 1px solid #263640;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    z-index: 10;
+}
+
+.bottom-nav a {
+    color: #aebac0;
+    text-decoration: none;
+    text-align: center;
+    font-size: 11px;
+    flex: 1;
+}
+
+.bottom-nav .active {
+    color: #25d366;
+    font-weight: bold;
+}
+
+.nav-icon {
+    display: block;
+    font-size: 21px;
+    margin-bottom: 5px;
+}
+
+main {
+    padding-bottom: 90px;
+}
+
+#createStatus {
+    display: none;
+    background: #101d24;
+    padding: 15px;
+    border-radius: 13px;
+    margin-top: 15px;
+}
+
+#createStatus textarea,
+#createStatus input {
+    width: 100%;
+    padding: 12px;
+    margin: 8px 0;
+    border-radius: 8px;
+    border: 1px solid #35444c;
+    background: #17252c;
+    color: white;
+}
+
+#createStatus button {
+    background: #25d366;
+    color: #071117;
+    border: none;
+    padding: 12px;
+    border-radius: 8px;
+    font-weight: bold;
+    width: 100%;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <div class="logo">ChatUp</div>
+    <div style="font-size:19px;">Updates</div>
+    <div class="header-icons">
+        <span>⌕</span>
+        <span>⋮</span>
+    </div>
+</header>
+
+<main class="container">
+
+    <div class="section-title">
+        <h3>Status</h3>
+        <span>⋮</span>
+    </div>
+
+    <div class="status-list">
+
+        <button class="status-card add-card"
+                onclick="toggleStatusForm()">
+
+            <div class="status-avatar">
+                <span>+</span>
+                <span class="add-plus">+</span>
+            </div>
+
+            <div class="status-name">Add status</div>
+        </button>
+
+        {% for status in statuses %}
+        <div class="status-card">
+
+            {% if status.filename %}
+                {% if status.media_type == 'image' %}
+                <img src="{{ url_for('status_upload', filename=status.filename) }}"
+                     alt="Status">
+                {% elif status.media_type == 'video' %}
+                <video muted>
+                    <source src="{{ url_for('status_upload', filename=status.filename) }}">
+                </video>
+                {% endif %}
+            {% else %}
+                <div style="height:100%;background:linear-gradient(145deg,#075e54,#263640);"></div>
+            {% endif %}
+
+            <div class="status-avatar">
+                {{ status.username[0]|upper }}
+            </div>
+
+            <div class="status-name">
+                {{ status.username }}
+                {% if status.text_content %}
+                <br><small>{{ status.text_content }}</small>
+                {% endif %}
+            </div>
+
+        </div>
+        {% endfor %}
+
+    </div>
+
+    <div id="createStatus">
+        <h3>Create status</h3>
+
+        <form action="{{ url_for('create_status') }}"
+              method="POST"
+              enctype="multipart/form-data">
+
+            <textarea name="text_content"
+                      placeholder="Write a status..."></textarea>
+
+            <input type="file"
+                   name="status_file"
+                   accept="image/*,video/mp4,video/webm,video/quicktime">
+
+            <button type="submit">Share Status</button>
+        </form>
+    </div>
+
+    <div class="section-title channel-heading">
+        <h3>Channels</h3>
+        <span>+</span>
+    </div>
+
+    <div class="channel">
+        <div class="channel-avatar">💬</div>
+        <div class="channel-info">
+            <strong>ChatUp News</strong>
+            <p>Welcome to ChatUp Channels</p>
+        </div>
+        <div class="channel-time">New</div>
+    </div>
+
+    <div class="channel">
+        <div class="channel-avatar">🎨</div>
+        <div class="channel-info">
+            <strong>Creative World</strong>
+            <p>Discover creativity and inspiration</p>
+        </div>
+        <div class="channel-time">New</div>
+    </div>
+
+    <div class="channel">
+        <div class="channel-avatar">🎮</div>
+        <div class="channel-info">
+            <strong>Gaming Zone</strong>
+            <p>Gaming updates and entertainment</p>
+        </div>
+        <div class="channel-time">New</div>
+    </div>
+
+</main>
+
+<nav class="bottom-nav">
+    <a href="/">
+        <span class="nav-icon">▣</span>
+        Chats
+    </a>
+
+    <a href="/status" class="active">
+        <span class="nav-icon">◉</span>
+        Updates
+    </a>
+
+    <a href="#">
+        <span class="nav-icon">♧</span>
+        Communities
+    </a>
+
+    <a href="#">
+        <span class="nav-icon">☎</span>
+        Calls
+    </a>
+</nav>
+
+<script>
+function toggleStatusForm() {
+    const form = document.getElementById("createStatus");
+
+    form.style.display =
+        form.style.display === "block" ? "none" : "block";
+}
+</script>
+
+</body>
+</html>
+
